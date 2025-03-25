@@ -5,33 +5,37 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Sector;
 use App\Models\Collaboration;
-use App\Models\Pack;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
 {
     public function index(Request $request)
     {
+        // Check if reset is triggered
+        if ($request->has('reset')) {
+            return redirect()->route('allbrands'); // Redirect to clear filters
+        }
+
         $brands = Brand::query();
 
         // Search by brand name
-        if ($request->has('search') && $request->search != '') {
+        if ($request->filled('search')) {
             $brands->where('brandName', 'like', '%' . $request->search . '%');
         }
 
         // Filter by sector
-        if ($request->has('sector') && $request->sector != '') {
+        if ($request->filled('sector')) {
             $brands->where('sector_id', $request->sector);
         }
 
         // Filter by collaboration type
-        if ($request->has('collaboration') && $request->collaboration != '') {
+        if ($request->filled('collaboration')) {
             $brands->where('collaboration_id', $request->collaboration);
         }
 
         // Filter by size (brandSize is an enum column)
-        if ($request->has('size') && !empty($request->size)) {
-            $brands->whereIn('brandSize', $request->size);  // Compare directly with 'Petite', 'Moyenne', 'Grande'
+        if ($request->filled('size')) {
+            $brands->whereIn('brandSize', $request->size);
         }
 
         $brands = $brands->get();
@@ -41,6 +45,4 @@ class BrandController extends Controller
         
         return view('pages.all-brands', compact('brands', 'sectors', 'collaborations'));
     }
-
 }
-

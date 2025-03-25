@@ -41,6 +41,7 @@
                 <div class="job__search__section mb-40">
                     <!-- Search Form -->
                     <form method="GET" action="{{ route('allbrands') }}" class="d-flex flex-column row-30">
+                        @csrf
                         <!-- Search by brand name -->
                         <div class="search__item">
                             <label for="search" class="mb-20 font-20 fw-medium text-dark text-capitalize">Rechercher par nom</label>
@@ -103,10 +104,17 @@
                         </div>
 
                         <!-- Search and Reset buttons -->
+                        
                         <div class="d-flex gap-3">
                             <!-- Search button -->
-                            <button type="submit" class="rts__btn no__fill__btn max-content mx-auto job__search__btn font-sm" aria-label="Search">Trouver la Marque</button>
+                            <button type="submit" class="rts__btn no__fill__btn max-content mx-auto job__search__btn font-sm">
+                                Trouver la Marque
+                            </button>
 
+                            <!-- Reset button -->
+                            <a href="{{ route('allbrands', ['reset' => true]) }}" class="rts__btn no__fill__btn max-content mx-auto job__search__btn font-sm">
+                                Réinitialiser
+                            </a>
                         </div>
                     </form>
                 </div>

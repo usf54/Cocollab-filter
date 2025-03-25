@@ -10,25 +10,30 @@ class InfluencerController extends Controller
 {
     public function index(Request $request)
     {
+        // Check if reset is triggered
+        if ($request->has('reset')) {
+            return redirect()->route('allinfluencers'); // Redirect to clear filters
+        }
+
         $query = Influencer::query();
 
         // Filter by name
-        if ($request->has('search') && !empty($request->search)) {
+        if ($request->filled('search')) {
             $query->where('influencerName', 'like', '%' . $request->search . '%');
         }
 
         // Filter by sector
-        if ($request->has('sector') && !empty($request->sector)) {
+        if ($request->filled('sector')) {
             $query->where('sector_id', $request->sector);
         }
 
         // Filter by gender
-        if ($request->has('gender')) {
+        if ($request->filled('gender')) {
             $query->whereIn('sexe', $request->gender);
         }
 
         // Filter by number of followers
-        if ($request->has('nbr_abonnes')) {
+        if ($request->filled('nbr_abonnes')) {
             $ranges = [
                 '50000' => [0, 49999],          // 0 - 50K
                 '100000' => [50000, 99999],     // 50K - 100K
@@ -55,5 +60,4 @@ class InfluencerController extends Controller
 
         return view('pages.all-influencers', compact('influencers', 'sectors'));
     }
-
 }

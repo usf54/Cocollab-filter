@@ -40,6 +40,7 @@
             <div class="col-lg-5 col-xl-4">
                 <div class="job__search__section mb-40">
                 <form action="{{ route('allinfluencers') }}" method="GET" class="d-flex flex-column row-30">
+                        @csrf
                         <!-- Search by Name -->
                         <div class="search__item">
                             <label for="search" class="mb-20 font-20 fw-medium text-dark text-capitalize">Rechercher par nom</label>
@@ -108,9 +109,19 @@
                         </div>
 
 
-                        <button type="submit" class="rts__btn no__fill__btn max-content mx-auto job__search__btn font-sm" aria-label="Search">Trouver l'Influenceur(Euse)</button>
-                    </form>
+                        <!-- Buttons Section -->
+                        <div class="d-flex gap-3">
+                            <!-- Search Button -->
+                            <button type="submit" class="rts__btn no__fill__btn max-content mx-auto job__search__btn font-sm">
+                                Trouver l'Influenceur(Euse)
+                            </button>
 
+                            <!-- Reset Button -->
+                            <a href="{{ route('allinfluencers', ['reset' => true]) }}" class="rts__btn no__fill__btn max-content mx-auto job__search__btn font-sm">
+                                Réinitialiser
+                            </a>
+                        </div>
+                    </form>
                 </div>
             </div>
 
